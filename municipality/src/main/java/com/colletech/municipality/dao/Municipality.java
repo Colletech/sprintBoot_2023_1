@@ -1,6 +1,5 @@
-package com.colletech.iglesia.dao;
+package com.colletech.municipality.dao;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,13 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "iglesia")
-public class Iglesia {
-
+@Table(name = "municipality")
+public class Municipality {
+	
 	@Id
-	private Long id;
-	@Column(name = "name")
-	private String nombre;
-	private String ubicacion;
-	private String religion;
+	private String id;
+	private Person person;
 }
