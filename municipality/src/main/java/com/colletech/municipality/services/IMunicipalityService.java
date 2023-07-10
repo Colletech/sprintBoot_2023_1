@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.colletech.municipality.dao.Municipality;
+import com.colletech.municipality.exceptions.NotFoundException;
 
 public interface IMunicipalityService {
 
@@ -13,5 +14,5 @@ public interface IMunicipalityService {
 	
 	Optional<Municipality> create(Municipality municipality);
 	
-	Municipality update(Municipality municipality);
+	Municipality update(Municipality municipality) throws NotFoundException;
 }
