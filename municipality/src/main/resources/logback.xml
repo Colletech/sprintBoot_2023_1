@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- Acepta caracteres latinos -->
+			<charset>UTF-8</charset>
+			<!-- dia/mes/año - 24H:minuto:segundo | Nivel | RutaClase.Clase:Linea 
+				- Mensaje+SaltoLinea -->
+			<pattern>
+				%d{dd/MM/yyyy - HH:mm:ss} | %-5level | [%c].%M:%line - %m%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>Municipality.log</file>
+		<encoder>
+			<!-- Acepta caracteres latinos -->
+			<charset>UTF-8</charset>
+			<!-- dia/mes/año - 24H:minuto:segundo | Nivel | RutaClase.Clase:Linea 
+				- Mensaje+SaltoLinea -->
+			<pattern>
+				%d{dd/MM/yyyy - HH:mm:ss} | %-5level | [%c].%M:%line - %m%n
+			</pattern>
+		</encoder>
+	</appender>
+	<root level="debug">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+	<logger name="com.colletech.municipality" additivity="false">
+		<appender-ref ref="FILE"/>
+	</logger>
+</configuration>

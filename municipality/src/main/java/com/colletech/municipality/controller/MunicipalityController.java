@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ import io.swagger.annotations.ApiResponses;
 },description = "Esta API tiene el CRUD de Municipalidad")
 public class MunicipalityController {
 	
+	Logger log = LoggerFactory.getLogger(MunicipalityController.class);
+	
 	@Autowired
 	IMunicipalityService service;
 	
@@ -63,12 +67,14 @@ public class MunicipalityController {
 	@PostMapping
 	public ResponseEntity<?> createPerson(@ApiParam(value = "Persona a registrar", required = true) 
 													@Valid @RequestBody(required = true) Municipality municipality, BindingResult result){
+		log.info("municipality {}", municipality);
 		Map<String, Object> response = new HashMap<>();
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream()
 					.map(error -> "El campo '" + error.getField() + "' " + error.getDefaultMessage())
 					.collect(Collectors.toList());
 			response.put("errors", errors);
+			log.error("Errores de validacion: ", errors);
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
