@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,9 +55,18 @@ public class MunicipalityController {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
-	@GetMapping(value = "/persons/{id}")
-	public ResponseEntity<?> getPerson(){
-		return null;
+	@ApiOperation(value = "Obtener de persona por DNI", response = ResponseEntity.class)
+	@ApiResponses({
+		@ApiResponse(code = HttpServletResponse.SC_OK, message = "OK"),
+		@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "NO ENCONTRADO")
+	})
+	@GetMapping(value = "/person/{dni}")
+	public ResponseEntity<?> getPerson(@PathVariable(required = true) Long dni){
+		Optional<Municipality> optional = service.getMunicipalityByPersonDni(dni);
+		if(optional.isPresent()) {
+			return ResponseEntity.ok(optional.get());
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 	
 	@ApiOperation(value = "Registro de personas", response = ResponseEntity.class)

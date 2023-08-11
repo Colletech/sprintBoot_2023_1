@@ -15,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,11 +40,6 @@ public class SecurityController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-
-	@GetMapping("/listar")
-	public ResponseEntity<?> listar() {
-		return ResponseEntity.ok("listar");
-	}
 
 	@PostMapping("/registrarse")
 	public ResponseEntity<?> registrarse(@Valid @RequestBody(required = true) User usuario, BindingResult result) {

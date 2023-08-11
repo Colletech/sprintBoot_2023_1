@@ -1,9 +1,9 @@
 package com.colletech.municipality.dao;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.mapping.Document;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -15,16 +15,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "municipality")
+@Document(collection = "municipality")
 @ApiModel(value = "Municipalidad", description = "Proyecto de municipalidad")
 public class Municipality {
-	
+
 	@Id
 	@ApiModelProperty(value = "Identificador de la Municipalidad", required = false)
 	private String id;
-	
+
 	@ApiModelProperty(value = "Relación con el objecto Persona", required = true)
 	@NotNull(message = "no puede ser nulo")
+	@Valid
 	private Person person;
 }

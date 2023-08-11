@@ -2,6 +2,7 @@ package com.colletech.municipality.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class MunicipalityImpl implements IMunicipalityService {
 	@Override
 	public Optional<Municipality> getMunicipalityByPersonDni(Long dni) {
 		log.info("DNI: {}", dni);
-		return Optional.empty();
+		Query query = new Query(Criteria.where("person.dni").is(dni));
+		return Optional.ofNullable(operations.findOne(query, Municipality.class));
 	}
 
 	@Override
