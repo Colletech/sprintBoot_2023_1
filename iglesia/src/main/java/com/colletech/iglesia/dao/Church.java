@@ -19,14 +19,12 @@ import lombok.NoArgsConstructor;
 public class Church {
 
 	@Id
+	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "idMunicipality")
-	private Long idMunicipality;
-	
+
+	@Column(name = "municipality_id")
+	private String idMunicipality;
+
 	@Column(name = "baptized")
-	private Boolean Baptized;
-	
-	@Column(name = "married")
-	private Boolean Married;
+	private Boolean baptized;
 }
