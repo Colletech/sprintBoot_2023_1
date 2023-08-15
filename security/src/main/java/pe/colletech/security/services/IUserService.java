@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import pe.colletech.security.dao.User;
+import pe.colletech.security.models.Church;
+import pe.colletech.security.models.Municipality;
 
 public interface IUserService {
-	
+
 	/**
 	 * Envuelve al metodo <b>findAll</b> de <b>MongoRepository</b> el cual devuelve
 	 * todos los registros de la tabla <b>user</b>
@@ -16,8 +18,8 @@ public interface IUserService {
 	List<User> buscarTodosUsuarios();
 
 	/**
-	 * Envuelve al metodo <b>findByDni</b> de <b>MongoRepository</b> el cual retorna el
-	 * registro buscado por su dni.
+	 * Envuelve al metodo <b>findByDni</b> de <b>MongoRepository</b> el cual retorna
+	 * el registro buscado por su dni.
 	 * 
 	 * @param dni
 	 * @return user
@@ -46,19 +48,33 @@ public interface IUserService {
 	User buscarUsuarioPorCorreo(String correo);
 
 	/**
-	 * Envuelve al metodo <b>save</b> de <b>MongoRepository</b> que guarda en la BD al
-	 * usuario que se pasa atraves del su parametro
+	 * Envuelve al metodo <b>save</b> de <b>MongoRepository</b> que guarda en la BD
+	 * al usuario que se pasa atraves del su parametro
 	 * 
 	 * @param user
 	 */
 	User registrarUsuario(User user);
 
 	/**
-	 * Envuelve al metodo <b>findByDni</b> de <b>MongoRepository</b> este deshabilitar un
-	 * registro de la BD por medio de su dni.
+	 * Envuelve al metodo <b>findByDni</b> de <b>MongoRepository</b> este
+	 * deshabilitar un registro de la BD por medio de su dni.
 	 * 
 	 * @param dni
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	void deshabilitarUsuarioPorDni(Long Dni) throws Exception;
+
+	/**
+	 * Envuelve al metodo <b>getCreyentes</b> de <b>RestTemplate</b>.
+	 * 
+	 * @return List(Church)
+	 */
+	List<Church> getCreyentes();
+
+	/**
+	 * Envuelve al metodo <b>getPersons</b> de <b>RestTemplate</b>.
+	 * 
+	 * @return List(Municipality)
+	 */
+	List<Municipality> getPersons();
 }

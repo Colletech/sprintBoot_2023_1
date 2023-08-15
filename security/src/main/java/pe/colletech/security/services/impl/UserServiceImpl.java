@@ -11,8 +11,13 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
 import com.mongodb.client.result.UpdateResult;
+
 import pe.colletech.security.dao.User;
+import pe.colletech.security.models.Church;
+import pe.colletech.security.models.Municipality;
 import pe.colletech.security.repository.UserRepository;
 import pe.colletech.security.services.IUserService;
 
@@ -27,6 +32,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private MongoOperations operations;
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -79,5 +87,17 @@ public class UserServiceImpl implements IUserService {
 	private User getUser(String dni) {
 		Query query = new Query(Criteria.where("dni").is(dni));
 		return Optional.ofNullable(operations.findOne(query, User.class)).orElse(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Church> getCreyentes() {
+		return restTemplate.getForObject("http://localhost:8080/api/creyentes", List.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Municipality> getPersons() {
+		return restTemplate.getForObject("http://localhost:7030/municipality/persons", List.class);
 	}
 }

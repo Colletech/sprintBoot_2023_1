@@ -45,13 +45,25 @@ public class SecurityController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	@CircuitBreaker(name = "iglesiaCB", fallbackMethod = "fallBackGetCreyentes")
+	@GetMapping("/church-creyentes")
+	public ResponseEntity<?> getCreyentes() {
+		return ResponseEntity.ok(userService.getCreyentes());
+	}
+
+	public ResponseEntity<?> fallBackGetCreyentes() {
+		Map<String, String> map = new HashMap<>();
+		map.put("message", "No se ha podido listar a todos los creyentes");
+		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+	}
+
 	@CircuitBreaker(name = "municipalityCB", fallbackMethod = "fallBackGetPersons")
 	@GetMapping("/municipality-persons")
-	public ResponseEntity<?> getUserSecurity(){
-		return null;
+	public ResponseEntity<?> getPersons() {
+		return ResponseEntity.ok(userService.getPersons());
 	}
-	
-	public ResponseEntity<?> fallBackGetPersons(){
+
+	public ResponseEntity<?> fallBackGetPersons() {
 		Map<String, String> map = new HashMap<>();
 		map.put("message", "No se ha podido listar a todas las personas");
 		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
