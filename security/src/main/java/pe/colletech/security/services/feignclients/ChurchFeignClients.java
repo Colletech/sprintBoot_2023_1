@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pe.colletech.security.models.Church;
 
-@FeignClient(name = "iglesia-service", url = "http://localhost:8080")
+@FeignClient(name = "iglesia-service")
 @RequestMapping(value = "/api")
 public interface ChurchFeignClients {
 

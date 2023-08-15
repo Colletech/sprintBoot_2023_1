@@ -1,0 +1,35 @@
+server:
+  port: 1109
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+    instance:
+      hostname: localhost
+
+spring:
+  application:
+    name: gateway-service 
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:7559
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: iglesia-service
+          uri: lb://iglesia-service
+          predicates:
+            - Path=/api/**
+        - id: municipality-service
+          uri: lb://municipality-service
+          predicates:
+            - Path=/municipality/**
+        - id: security-service
+          uri: lb://security-service
+          predicates:
+            - Path=/security/**

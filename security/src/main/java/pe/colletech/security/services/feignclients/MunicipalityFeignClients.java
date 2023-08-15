@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pe.colletech.security.models.Municipality;
 
-@FeignClient(name = "municipality-service", url = "http://localhost:7030")
+@FeignClient(name = "municipality-service")
 @RequestMapping(value = "/municipality")
 public interface MunicipalityFeignClients {
 
