@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value = "/api/v1/municipality")
+@RequestMapping(value = "/municipality")
 @Api(tags = {
 		"Controlador de Municipalidad"
 },description = "Esta API tiene el CRUD de Municipalidad")
@@ -44,7 +44,7 @@ public class MunicipalityController {
 	Logger log = LoggerFactory.getLogger(MunicipalityController.class);
 	
 	@Autowired
-	IMunicipalityService service;
+	private IMunicipalityService service;
 	
 	@ApiOperation(value = "Listado de personas", response = ResponseEntity.class)
 	@ApiResponses({
@@ -121,5 +121,4 @@ public class MunicipalityController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 }

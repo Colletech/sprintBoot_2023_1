@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //				 Se desactiva el filtro CSRF
 				.and().csrf().disable()
 //				url de autorizacion
-				.authorizeRequests().antMatchers("/registrarse", SecurityConstants.LOGIN_URL).permitAll().anyRequest()
+				.authorizeRequests().antMatchers("/security/registrarse", "/security"+SecurityConstants.LOGIN_URL).permitAll().anyRequest()
 				.authenticated();
 		// Indicamos que usaremos un filtro
 		http.addFilterBefore(authFiltroToken, UsernamePasswordAuthenticationFilter.class);

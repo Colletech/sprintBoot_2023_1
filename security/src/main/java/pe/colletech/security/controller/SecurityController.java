@@ -15,10 +15,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import pe.colletech.security.config.util.JwtUtil;
 import pe.colletech.security.config.util.SecurityConstants;
 import pe.colletech.security.dao.GenericUsernamePassword;
@@ -27,6 +30,7 @@ import pe.colletech.security.services.IUserService;
 import pe.colletech.security.services.MiUserDetailsService;
 
 @RestController
+@RequestMapping(value = "/security")
 public class SecurityController {
 
 	@Autowired
@@ -40,6 +44,23 @@ public class SecurityController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
+
+	@CircuitBreaker(name = "municipalityCB", fallbackMethod = "fallBackGetPersons")
+	@GetMapping("/municipality-persons")
+	public ResponseEntity<?> getUserSecurity(){
+		return null;
+	}
+	
+	public ResponseEntity<?> fallBackGetPersons(){
+		Map<String, String> map = new HashMap<>();
+		map.put("message", "No se ha podido listar a todas las personas");
+		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/users")
+	public ResponseEntity<?> getAllUsers() {
+		return ResponseEntity.ok(userService.buscarTodosUsuarios());
+	}
 
 	@PostMapping("/registrarse")
 	public ResponseEntity<?> registrarse(@Valid @RequestBody(required = true) User usuario, BindingResult result) {
