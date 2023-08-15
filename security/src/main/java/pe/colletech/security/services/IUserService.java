@@ -77,4 +77,20 @@ public interface IUserService {
 	 * @return List(Municipality)
 	 */
 	List<Municipality> getPersons();
+	
+	/**
+	 * Envuelve al metodo <b>getPerson</b> de <b>FeignClients</b>.
+	 * 
+	 * @param dni
+	 * @return municipality
+	 */
+	Municipality getPerson(Long dni);
+	
+	/**
+	 * Envuelve al metodo <b>saveCreyente</b> de <b>FeignClients</b>.
+	 * 
+	 * @param church
+	 * @return Church
+	 */
+	Church saveCreyente(Church iglesia);
 }

@@ -20,6 +20,8 @@ import pe.colletech.security.models.Church;
 import pe.colletech.security.models.Municipality;
 import pe.colletech.security.repository.UserRepository;
 import pe.colletech.security.services.IUserService;
+import pe.colletech.security.services.feignclients.ChurchFeignClients;
+import pe.colletech.security.services.feignclients.MunicipalityFeignClients;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -35,6 +37,12 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private RestTemplate restTemplate;
+
+	@Autowired
+	private ChurchFeignClients churchFeignClients;
+
+	@Autowired
+	private MunicipalityFeignClients municipalityFeignClients;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -89,15 +97,24 @@ public class UserServiceImpl implements IUserService {
 		return Optional.ofNullable(operations.findOne(query, User.class)).orElse(null);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Church> getCreyentes() {
-		return restTemplate.getForObject("http://localhost:8080/api/creyentes", List.class);
+		return churchFeignClients.getListCreyentes();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Municipality> getPersons() {
 		return restTemplate.getForObject("http://localhost:7030/municipality/persons", List.class);
+	}
+
+	@Override
+	public Municipality getPerson(Long dni) {
+		return municipalityFeignClients.getPerson(dni);
+	}
+
+	@Override
+	public Church saveCreyente(Church iglesia) {
+		return churchFeignClients.saveCreyente(iglesia);
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import pe.colletech.security.config.util.JwtUtil;
 import pe.colletech.security.config.util.SecurityConstants;
 import pe.colletech.security.dao.GenericUsernamePassword;
 import pe.colletech.security.dao.User;
+import pe.colletech.security.models.Church;
 import pe.colletech.security.services.IUserService;
 import pe.colletech.security.services.MiUserDetailsService;
 
@@ -45,8 +47,18 @@ public class SecurityController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	@CircuitBreaker(name = "iglesiaCB", fallbackMethod = "fallBackGetCreyentes")
-	@GetMapping("/church-creyentes")
+	@PostMapping(value = "/save-creyente")
+	public ResponseEntity<?> saveCreyente(@RequestBody Church iglesia) {
+		return ResponseEntity.ok(userService.saveCreyente(iglesia));
+	}
+
+	@GetMapping(value = "/municipality-person/{dni}")
+	public ResponseEntity<?> getPerson(@PathVariable(required = true) Long dni) {
+		return ResponseEntity.ok(userService.getPerson(dni));
+	}
+
+//	@CircuitBreaker(name = "iglesiaCB", fallbackMethod = "fallBackGetCreyentes")
+	@GetMapping(value = "/church-creyentes")
 	public ResponseEntity<?> getCreyentes() {
 		return ResponseEntity.ok(userService.getCreyentes());
 	}
@@ -58,7 +70,7 @@ public class SecurityController {
 	}
 
 	@CircuitBreaker(name = "municipalityCB", fallbackMethod = "fallBackGetPersons")
-	@GetMapping("/municipality-persons")
+	@GetMapping(value = "/municipality-persons")
 	public ResponseEntity<?> getPersons() {
 		return ResponseEntity.ok(userService.getPersons());
 	}
@@ -69,12 +81,12 @@ public class SecurityController {
 		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
 	}
 
-	@GetMapping("/users")
+	@GetMapping(value = "/users")
 	public ResponseEntity<?> getAllUsers() {
 		return ResponseEntity.ok(userService.buscarTodosUsuarios());
 	}
 
-	@PostMapping("/registrarse")
+	@PostMapping(value = "/registrarse")
 	public ResponseEntity<?> registrarse(@Valid @RequestBody(required = true) User usuario, BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 		if (result.hasErrors()) {
