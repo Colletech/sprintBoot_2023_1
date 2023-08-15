@@ -57,13 +57,13 @@ public class SecurityController {
 		return ResponseEntity.ok(userService.getPerson(dni));
 	}
 
-//	@CircuitBreaker(name = "iglesiaCB", fallbackMethod = "fallBackGetCreyentes")
+	@CircuitBreaker(name = "iglesiaCB", fallbackMethod = "fallBackGetCreyentes")
 	@GetMapping(value = "/church-creyentes")
 	public ResponseEntity<?> getCreyentes() {
 		return ResponseEntity.ok(userService.getCreyentes());
 	}
 
-	public ResponseEntity<?> fallBackGetCreyentes() {
+	public ResponseEntity<?> fallBackGetCreyentes(RuntimeException e) {
 		Map<String, String> map = new HashMap<>();
 		map.put("message", "No se ha podido listar a todos los creyentes");
 		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
@@ -75,7 +75,7 @@ public class SecurityController {
 		return ResponseEntity.ok(userService.getPersons());
 	}
 
-	public ResponseEntity<?> fallBackGetPersons() {
+	public ResponseEntity<?> fallBackGetPersons(RuntimeException e) {
 		Map<String, String> map = new HashMap<>();
 		map.put("message", "No se ha podido listar a todas las personas");
 		return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
