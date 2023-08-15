@@ -105,7 +105,7 @@ public class UserServiceImpl implements IUserService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Municipality> getPersons() {
-		return restTemplate.getForObject("http://localhost:7030/municipality/persons", List.class);
+		return restTemplate.getForObject("http://municipality-service/municipality/persons", List.class);
 	}
 
 	@Override
